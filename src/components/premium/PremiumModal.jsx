@@ -153,7 +153,7 @@ const PremiumModal = ({ onClose }) => {
     }
   };
 
-  if (user?.isPremium && subscriptionDetails) {
+  if (user?.isPremium && subscriptionDetails && subscriptionDetails.success) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-white rounded-xl shadow-xl max-w-lg w-full mx-4 my-8">
@@ -175,7 +175,7 @@ const PremiumModal = ({ onClose }) => {
               <Crown className="text-yellow-500 mx-auto mb-4" size={48} />
               <h3 className="text-xl font-bold text-gray-800 mb-2">You're a Premium Member!</h3>
               <p className="text-gray-600 mb-4">
-                Enjoy all premium features until {new Date(subscriptionDetails.endDate).toLocaleDateString()}
+                Enjoy all premium features until {new Date(subscriptionDetails.endDate).toLocaleString()}
               </p>
               <div className="bg-white rounded-lg p-4 shadow-sm">
                 <p className="text-gray-700 font-medium">

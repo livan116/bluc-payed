@@ -3,8 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { X } from 'lucide-react';
 
 const ProfileModal = ({ onClose, onSubmit }) => {
-  console.log(onClose)
-  const { user, updateProfile, fetchUserProfile } = useAuth();
+  const { user, updateProfile } = useAuth();
   const [formData, setFormData] = useState({
     fullName: '',
     dateOfBirth: '',
@@ -14,28 +13,16 @@ const ProfileModal = ({ onClose, onSubmit }) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const userData = await fetchUserProfile();
-        if (userData) {
-          // Format date of birth to YYYY-MM-DD for the input field
-          const formattedDate = userData.dateOfBirth
-            ? new Date(userData.dateOfBirth).toISOString().split('T')[0]
-            : '';
-
-          setFormData({
-            fullName: userData.fullName || '',
-            dateOfBirth: formattedDate,
-            gender: userData.gender || 'male'
-          });
-        }
-      } catch (err) {
-        console.error('Failed to load user data:', err);
-      }
-    };
-
-    loadUserData();
-  }, [fetchUserProfile]);
+    if (user) {
+      setFormData({
+        fullName: user.fullName || '',
+        dateOfBirth: user.dateOfBirth
+          ? new Date(user.dateOfBirth).toISOString().split('T')[0]
+          : '',
+        gender: user.gender || 'male'
+      });
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

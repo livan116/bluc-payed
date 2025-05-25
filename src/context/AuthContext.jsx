@@ -22,12 +22,15 @@ export const AuthProvider = ({ children }) => {
       const userData = response.data;
       setUser(userData);
 
-      // Only show profile modal if user exists but profile is not complete
-      if (userData && !userData.fullName && !userData.dateOfBirth && !userData.gender) {
+      // Only show profile modal if user exists but profile is not complete and modal is not already open
+      if (
+        userData &&
+        (!userData.fullName || !userData.dateOfBirth || !userData.gender) &&
+        !showProfileModal
+      ) {
         setShowProfileModal(true);
-      } else {
-        setShowProfileModal(false);
       }
+      // Do not set showProfileModal to false here to avoid repeated closing
 
       return userData;
     } catch (error) {
